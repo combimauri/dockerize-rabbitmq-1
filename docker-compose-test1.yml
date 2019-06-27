@@ -1,0 +1,14 @@
+version: '2'
+services:
+  myrabbitmq:
+    build: ./rabbitmq-service
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_NODENAME=my-rabbit
+    hostname: rabbitmqhost
+  myconsumer:
+    build: ./consumer-service
+    depends_on:
+      - myrabbitmq

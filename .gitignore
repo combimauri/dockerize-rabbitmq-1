@@ -1,0 +1,3 @@
+node_modules
+consumer-service/node_modules
+producer-service/node_modules

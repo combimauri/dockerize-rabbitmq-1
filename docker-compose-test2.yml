@@ -1,0 +1,10 @@
+version: '3'
+services:
+  myconsumer:
+    build: ./consumer-service
+    network_mode: "host"
+  myproducer:
+    build: ./producer-service
+    network_mode: "host"
+    depends_on:
+     - myconsumer

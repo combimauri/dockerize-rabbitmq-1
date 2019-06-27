@@ -1,0 +1,37 @@
+version: '3.2'
+services:
+
+  myrabbitmq:
+    build: ./rabbitmq-service
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_NODENAME=my-rabbit
+    hostname: rabbitmqhost
+    networks:
+      - rabbitnetwork
+
+  myconsumer:
+    build: ./consumer-service
+    restart: on-failure
+    depends_on:
+      - myrabbitmq
+    links:
+      - myrabbitmq
+    networks:
+      - rabbitnetwork
+
+  myproducer:
+    build: ./producer-service
+    restart: on-failure
+    depends_on:
+     - myconsumer
+    links:
+      - myrabbitmq
+    networks:
+     - rabbitnetwork
+
+networks:
+  rabbitnetwork:
+    driver: "bridge"
